@@ -25,8 +25,15 @@ module.exports = {
             presets: ['env']
           }
         }
+      }, {
+        test: /\.css$/,
+        loader: 'style-loader!css-loader'
       }
     ]
+  },
+  resolve: {
+    modules: ['node_modules'],
+    extensions: ['.webpack.js', '.web.js', '.js', '.json', 'css']
   },
   plugins: [
     new CopyWebpackPlugin([{

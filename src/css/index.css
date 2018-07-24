@@ -1,0 +1,37 @@
+body {
+  padding: 20px 50px 20px 50px;
+}
+
+input {
+  width: 100px;
+  margin-right: 10px;
+  font-size: 14px;
+  padding: 5px;
+}
+
+li {
+  margin-bottom: 20px;
+}
+
+button {
+  padding: 5px;
+  width: 150px;
+  margin-top: 20px;
+}
+
+#onegai {
+  font-weight: bold;
+}
+
+#timetable {
+  margin-top: 30px;
+}
+
+table td {
+  border: 1px black solid;
+  padding: 10px;
+}
+
+.unit {
+  width: 30px;
+}
