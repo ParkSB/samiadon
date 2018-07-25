@@ -22,7 +22,7 @@ module.exports = {
         use: {
           loader: 'babel-loader',
           options: {
-            presets: ['env']
+            presets: ['env', 'react']
           }
         }
       }, {
@@ -33,7 +33,17 @@ module.exports = {
   },
   resolve: {
     modules: ['node_modules'],
-    extensions: ['.webpack.js', '.web.js', '.js', '.json', 'css']
+    extensions: ['.webpack.js', '.web.js', '.js', '.json', 'jsx', 'css']
+  },
+  node: {
+    console: false,
+    global: true,
+    process: true,
+    Buffer: true,
+    setImmediate: true,
+    fs: 'empty',
+    net: 'empty',
+    tls: 'empty'
   },
   plugins: [
     new CopyWebpackPlugin([{
