@@ -14,11 +14,9 @@ class LectureList extends React.Component {
         { key: 2 }
       ]
     };
-
-    this.addLecture = this.addLecture.bind(this);
   }
 
-  addLecture() {
+  addLecture = () => {
     const { lectureNum, lectures } = this.state;
 
     this.setState({ lectures: [...lectures, { key: lectureNum }] });
