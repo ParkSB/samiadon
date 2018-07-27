@@ -8,12 +8,26 @@ class LectureList extends React.Component {
     super();
 
     this.state = {
-      lectureFormNum: 3,
-      lectureForms: [{ key: 0 }, { key: 1 }, { key: 2 }],
+      lectureForms: [0, 1, 2],
       lectures: {
-        0: { name: '', professor: '', location: '' },
-        1: { name: '', professor: '', location: '' },
-        2: { name: '', professor: '', location: '' }
+        0: {
+          name: '',
+          professor: '',
+          location: '',
+          time: ''
+        },
+        1: {
+          name: '',
+          professor: '',
+          location: '',
+          time: ''
+        },
+        2: {
+          name: '',
+          professor: '',
+          location: '',
+          time: ''
+        },
       }
     };
   }
@@ -31,24 +45,19 @@ class LectureList extends React.Component {
     }));
   }
 
-  getResult = () => {
-    const { lectures } = this.state;
-
-    console.table(lectures);
-  }
-
   addLectureForm = () => {
-    const { lectureFormNum, lectureForms, lectures } = this.state;
+    const { lectureForms, lectures } = this.state;
+    const lectureLen = lectureForms.length;
 
     this.setState({
-      lectureForms: [...lectureForms, { key: lectureFormNum }],
-      lectureFormNum: lectureFormNum + 1,
+      lectureForms: [...lectureForms, lectureLen],
       lectures: {
         ...lectures,
-        [lectureFormNum]: {
+        [lectureLen]: {
           name: '',
           professor: '',
-          location: ''
+          location: '',
+          time: ''
         }
       }
     });
@@ -59,30 +68,29 @@ class LectureList extends React.Component {
 
     return (
       <div id="lecture-list">
-        <form>
-          <ul>
-            {lectureForms.map((lec) => {
-              const nameId = `lecture-name-${lec.key}`;
-              const professorId = `lecture-professor-${lec.key}`;
-              const locationId = `lecture-location-${lec.key}`;
+        <ul>
+          {lectureForms.map((lec) => {
+            const nameId = `lecture-name-${lec}`;
+            const professorId = `lecture-professor-${lec}`;
+            const locationId = `lecture-location-${lec}`;
+            const timeId = `lecture-time-${lec}`;
 
-              return (
-                <li key={lec.key}>
-                  <TextField id={nameId} label="과목명" value={lectures[lec.key].name} onChange={(e) => { this.setLectureInfo(e, lec.key, 'name'); }} />
-                  <TextField id={professorId} label="교수명" value={lectures[lec.key].professor} onChange={(e) => { this.setLectureInfo(e, lec.key, 'professor'); }} />
-                  <TextField id={locationId} label="강의실" value={lectures[lec.key].location} onChange={(e) => { this.setLectureInfo(e, lec.key, 'location'); }} />
-                </li>
-              );
-            })}
-          </ul>
-        </form>
+            return (
+              <li key={lec}>
+                <TextField id={nameId} label="과목명" value={lectures[lec].name} onChange={(e) => { this.setLectureInfo(e, lec, 'name'); }} />
+                <TextField id={professorId} label="교수명" value={lectures[lec].professor} onChange={(e) => { this.setLectureInfo(e, lec, 'professor'); }} />
+                <TextField id={locationId} label="강의실" value={lectures[lec].location} onChange={(e) => { this.setLectureInfo(e, lec, 'location'); }} />
+                <TextField id={timeId} label="시간" value={lectures[lec].time} onChange={(e) => { this.setLectureInfo(e, lec, 'time'); }} />
+              </li>
+            );
+          })}
+        </ul>
+
         <Button variant="contained" onClick={this.addLectureForm}>
           {'수업 추가'}
         </Button>
-        <Button variant="contained" color="primary" onClick={this.getResult}>
-          {'카피카피 룸룸!'}
-        </Button>
-        <Timetable />
+
+        <Timetable lectureForms={lectureForms} lectures={lectures} />
       </div>
     );
   }

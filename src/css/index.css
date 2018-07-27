@@ -6,10 +6,11 @@
 ul {
   padding: 0;
   list-style-position: inside;
+  list-style: none;
 }
 
 li {
-  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
 input {
@@ -18,9 +19,32 @@ input {
 
 #timetable {
   margin-top: 30px;
+  margin-bottom: 50px;
 }
 
-table td {
-  border: 1px black solid;
+table {
+  margin-bottom: 15px;
+}
+
+td, th {
   padding: 10px;
+}
+
+th {
+  border: 1px #3F51B5 solid;
+  color: #3F51B5;
+}
+
+td {
+  border: 1px #606060 solid;
+  color: #303030;
+}
+
+.block-time {
+  border: 1px #3F51B5 solid;
+  color: #3F51B5;
+}
+
+.unit {
+  width: 30px;
 }
