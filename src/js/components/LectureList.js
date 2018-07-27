@@ -1,6 +1,7 @@
 import React from 'react';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
+import Timetable from './Timetable';
 
 class LectureList extends React.Component {
   constructor() {
@@ -17,42 +18,14 @@ class LectureList extends React.Component {
     };
   }
 
-  setLecName = (e, key) => {
+  setLectureInfo = (e, key, type) => {
     const input = e.target.value;
     this.setState(prevState => ({
       lectures: {
         ...prevState.lectures,
         [key]: {
           ...prevState.lectures[key],
-          name: input
-        }
-      }
-    }));
-  }
-
-  setLecProfessor = (e, key) => {
-    const input = e.target.value;
-
-    this.setState(prevState => ({
-      lectures: {
-        ...prevState.lectures,
-        [key]: {
-          ...prevState.lectures[key],
-          professor: input
-        }
-      }
-    }));
-  }
-
-  setLecLocation = (e, key) => {
-    const input = e.target.value;
-
-    this.setState(prevState => ({
-      lectures: {
-        ...prevState.lectures,
-        [key]: {
-          ...prevState.lectures[key],
-          location: input
+          [type]: input
         }
       }
     }));
@@ -95,9 +68,9 @@ class LectureList extends React.Component {
 
               return (
                 <li key={lec.key}>
-                  <TextField id={nameId} label="과목명" value={lectures[lec.key].name} onChange={(e) => { this.setLecName(e, lec.key); }} />
-                  <TextField id={professorId} label="교수명" value={lectures[lec.key].professor} onChange={(e) => { this.setLecProfessor(e, lec.key); }} />
-                  <TextField id={locationId} label="강의실" value={lectures[lec.key].location} onChange={(e) => { this.setLecLocation(e, lec.key); }} />
+                  <TextField id={nameId} label="과목명" value={lectures[lec.key].name} onChange={(e) => { this.setLectureInfo(e, lec.key, 'name'); }} />
+                  <TextField id={professorId} label="교수명" value={lectures[lec.key].professor} onChange={(e) => { this.setLectureInfo(e, lec.key, 'professor'); }} />
+                  <TextField id={locationId} label="강의실" value={lectures[lec.key].location} onChange={(e) => { this.setLectureInfo(e, lec.key, 'location'); }} />
                 </li>
               );
             })}
@@ -109,6 +82,7 @@ class LectureList extends React.Component {
         <Button variant="contained" color="primary" onClick={this.getResult}>
           {'카피카피 룸룸!'}
         </Button>
+        <Timetable />
       </div>
     );
   }
