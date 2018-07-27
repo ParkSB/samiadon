@@ -10,9 +10,9 @@ class LectureList extends React.Component {
       lectureFormNum: 3,
       lectureForms: [{ key: 0 }, { key: 1 }, { key: 2 }],
       lectures: {
-        0: {},
-        1: {},
-        2: {}
+        0: { name: '', professor: '', location: '' },
+        1: { name: '', professor: '', location: '' },
+        2: { name: '', professor: '', location: '' }
       }
     };
   }
@@ -58,23 +58,34 @@ class LectureList extends React.Component {
     }));
   }
 
+  getResult = () => {
+    const { lectures } = this.state;
+
+    console.table(lectures);
+  }
+
   addLectureForm = () => {
     const { lectureFormNum, lectureForms, lectures } = this.state;
 
     this.setState({
       lectureForms: [...lectureForms, { key: lectureFormNum }],
       lectureFormNum: lectureFormNum + 1,
-      lectures: { ...lectures, [lectureFormNum]: {} }
+      lectures: {
+        ...lectures,
+        [lectureFormNum]: {
+          name: '',
+          professor: '',
+          location: ''
+        }
+      }
     });
-
-    console.log(lectures);
   }
 
   render() {
     const { lectureForms, lectures } = this.state;
 
     return (
-      <div id="class-list">
+      <div id="lecture-list">
         <form>
           <ul>
             {lectureForms.map((lec) => {
@@ -95,7 +106,7 @@ class LectureList extends React.Component {
         <Button variant="contained" onClick={this.addLectureForm}>
           {'수업 추가'}
         </Button>
-        <Button variant="contained" color="primary">
+        <Button variant="contained" color="primary" onClick={this.getResult}>
           {'카피카피 룸룸!'}
         </Button>
       </div>
