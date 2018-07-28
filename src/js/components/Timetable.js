@@ -7,6 +7,7 @@ class Timetable extends React.Component {
     super(props);
     this.state = {
       weekday: ['월', '화', '수', '목', '금', '토', '일'],
+      timeUnitAlphabet: ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'],
       timeUnit: [
         'A 9:00 ~ 10:00',
         'B 10:30 ~ 11:30',
@@ -17,7 +18,7 @@ class Timetable extends React.Component {
         'G 18:00 ~ 19:00',
         'H 19:30 ~ 20:30'
       ],
-      displayLectures: []
+      displayLectures: {}
     };
   }
 
@@ -35,7 +36,6 @@ class Timetable extends React.Component {
 
   setCommonTable = () => {
     const { lectureForms, lectures } = this.props;
-    const lecture = [];
 
     for (let i = 0; i < lectureForms.length; i += 1) {
       const times = lectures[lectureForms[i]].time.split(',');
@@ -47,22 +47,32 @@ class Timetable extends React.Component {
         const hours = times[j].split('')[1];
 
         if (weekday && hours) {
-          lecture.push({
-            name: lectures.name,
-            weekday: this.getWeekdayIndex(weekday),
-            hours: hours.toUpperCase()
-          });
+          const key = `${weekday}${hours}`;
+          this.setState(prevState => ({
+            displayLectures: {
+              ...prevState.displayLectures,
+              [key]: {
+                name: lectures[lectureForms[i]].name,
+                professor: lectures[lectureForms[i]].professor,
+                location: lectures[lectureForms[i]].location,
+                weekday,
+                hours: hours.toUpperCase()
+              }
+            }
+          }));
         }
       }
     }
-
-    this.setState({
-      displayLectures: [...lecture]
-    });
   }
 
   render() {
-    const { weekday, timeUnit, displayLectures } = this.state;
+    const {
+      weekday,
+      timeUnitAlphabet,
+      timeUnit,
+      displayLectures
+    } = this.state;
+
     return (
       <div id="timetable">
         <table>
@@ -88,12 +98,11 @@ class Timetable extends React.Component {
                     {time}
                   </td>
                   {Array.from(Array(7).keys()).map((w) => {
+                    const displayLectureKey = `${weekday[w]}${timeUnitAlphabet[t]}`;
                     return (
                       <TimeBlock
                         key={w}
-                        displayLectures={displayLectures}
-                        weekday={w}
-                        period={t}
+                        displayLecture={displayLectures[displayLectureKey]}
                       />);
                   })}
                 </tr>

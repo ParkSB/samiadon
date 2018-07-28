@@ -46,5 +46,16 @@ td {
 }
 
 .unit {
-  width: 30px;
+  width: 100px;
+  height: 100px;
+}
+
+.lecture {
+  color: white;
+  background-color: #3F51B5;
+}
+
+.lecture-info {
+  display: block;
+  font-size: 10px;
 }

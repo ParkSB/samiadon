@@ -11,10 +11,10 @@ class LectureList extends React.Component {
       lectureForms: [0, 1, 2],
       lectures: {
         0: {
-          name: '',
-          professor: '',
-          location: '',
-          time: ''
+          name: '자료구조',
+          professor: '최정주',
+          location: '산B103',
+          time: '화C'
         },
         1: {
           name: '',
