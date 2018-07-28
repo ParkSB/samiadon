@@ -37,29 +37,35 @@ class Timetable extends React.Component {
   setCommonTable = () => {
     const { lectureForms, lectures } = this.props;
 
+    this.setState({ displayLectures: {} });
+
     for (let i = 0; i < lectureForms.length; i += 1) {
-      const times = lectures[lectureForms[i]].time.split(',');
+      const lecture = lectures[lectureForms[i]];
 
-      for (let j = 0; j < times.length; j += 1) {
-        times[j] = times[j].replace(/\s/g, '');
+      if (lecture.time) {
+        const times = lecture.time.split(',');
 
-        const weekday = times[j].split('')[0];
-        const hours = times[j].split('')[1];
+        for (let j = 0; j < times.length; j += 1) {
+          times[j] = times[j].replace(/\s/g, '');
 
-        if (weekday && hours) {
-          const key = `${weekday}${hours}`;
-          this.setState(prevState => ({
-            displayLectures: {
-              ...prevState.displayLectures,
-              [key]: {
-                name: lectures[lectureForms[i]].name,
-                professor: lectures[lectureForms[i]].professor,
-                location: lectures[lectureForms[i]].location,
-                weekday,
-                hours: hours.toUpperCase()
+          const weekday = times[j].split('')[0];
+          const hours = times[j].split('')[1].toUpperCase();
+
+          if (weekday && hours) {
+            const key = `${weekday}${hours}`;
+            this.setState(prevState => ({
+              displayLectures: {
+                ...prevState.displayLectures,
+                [key]: {
+                  name: lecture.name,
+                  professor: lecture.professor,
+                  location: lecture.location,
+                  weekday,
+                  hours
+                }
               }
-            }
-          }));
+            }));
+          }
         }
       }
     }
