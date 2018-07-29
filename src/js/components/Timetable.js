@@ -1,14 +1,19 @@
 import React from 'react';
 import Button from '@material-ui/core/Button';
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormControl from '@material-ui/core/FormControl';
 import TimeBlock from './TimeBlock';
 
 class Timetable extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      mode: 'normal',
       weekday: ['월', '화', '수', '목', '금', '토', '일'],
       timeUnitAlphabet: ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'],
-      timeUnit: [
+      timeUnitString: [
         'A 9:00 ~ 10:00',
         'B 10:30 ~ 11:30',
         'C 12:00 ~ 13:00',
@@ -20,6 +25,12 @@ class Timetable extends React.Component {
       ],
       displayLectures: {}
     };
+  }
+
+  setMode = (e) => {
+    this.setState({
+      mode: e.target.value
+    });
   }
 
   getWeekdayIndex(target) {
@@ -73,14 +84,39 @@ class Timetable extends React.Component {
 
   render() {
     const {
+      mode,
       weekday,
       timeUnitAlphabet,
-      timeUnit,
+      timeUnitString,
       displayLectures
     } = this.state;
 
     return (
       <div id="timetable">
+        <div id="timetable-radios">
+          <FormControl component="fieldset" required className="mode-radio-form">
+            <RadioGroup
+              aria-label="모드 설정"
+              name="mode-radio"
+              value={mode}
+              onChange={this.setMode}
+              className="mode-radio-form"
+            >
+              <FormControlLabel value="normal" control={<Radio />} label="일반" />
+              <FormControlLabel value="kitakubu" control={<Radio />} label="칼퇴" />
+              <FormControlLabel value="snorlax" control={<Radio />} label="잠만보" />
+              <FormControlLabel value="hermione" control={<Radio />} label="헤르미온느" />
+              <FormControlLabel value="astronaut" control={<Radio />} label="우주인" />
+              <FormControlLabel value="nl" control={<Radio />} label="학교가기 싫어요" />
+              <FormControlLabel value="lucky" control={<Radio />} label="I'm feeling lucky" />
+            </RadioGroup>
+          </FormControl>
+        </div>
+
+        <Button variant="contained" color="primary" onClick={this.setCommonTable}>
+          {'카피카피 룸룸!'}
+        </Button>
+
         <table>
           <thead>
             <tr>
@@ -97,7 +133,7 @@ class Timetable extends React.Component {
             </tr>
           </thead>
           <tbody>
-            {timeUnit.map((time, t) => {
+            {timeUnitString.map((time, t) => {
               return (
                 <tr key={time} id={time.split('')[0]} className="block">
                   <td className="block-time">
@@ -113,14 +149,9 @@ class Timetable extends React.Component {
                   })}
                 </tr>
               );
-            })
-            }
+            })}
           </tbody>
         </table>
-
-        <Button variant="contained" color="primary" onClick={this.setCommonTable}>
-          {'카피카피 룸룸!'}
-        </Button>
       </div>
     );
   }

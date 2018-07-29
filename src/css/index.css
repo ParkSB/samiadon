@@ -13,8 +13,9 @@ li {
   margin-bottom: 10px;
 }
 
-input {
-  width: 100px;
+.lecture-textfield {
+  width: 25%;
+  max-width: 220px;
 }
 
 #timetable {
@@ -22,7 +23,17 @@ input {
   margin-bottom: 50px;
 }
 
+.MuiFormGroup-root-125.mode-radio-form {
+  width: 900px;
+  flex-direction: row;
+}
+
+#timetable-radios {
+  margin-bottom: 30px;
+}
+
 table {
+  margin-top: 15px;
   margin-bottom: 15px;
 }
 
@@ -43,6 +54,8 @@ td {
 .block-time {
   border: 1px #3F51B5 solid;
   color: #3F51B5;
+  min-width: 110px;
+  text-align: center;
 }
 
 .unit {
@@ -53,6 +66,7 @@ td {
 .lecture {
   color: white;
   background-color: #3F51B5;
+  font-size: 14px;
 }
 
 .lecture-info {
