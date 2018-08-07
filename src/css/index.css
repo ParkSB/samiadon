@@ -23,7 +23,7 @@ li {
   margin-bottom: 50px;
 }
 
-.MuiFormGroup-root-125.mode-radio-form {
+.MuiFormGroup-root-150.option-radio-form {
   width: 900px;
   flex-direction: row;
 }
@@ -61,15 +61,27 @@ td {
 .unit {
   width: 100px;
   height: 100px;
+  color: white;
+  font-size: 14px;
 }
 
-.lecture {
-  color: white;
+.lecture-unrequired {
   background-color: #3F51B5;
-  font-size: 14px;
+}
+
+.lecture-required {
+  background-color: #F50057;
 }
 
 .lecture-info {
   display: block;
   font-size: 10px;
+}
+
+.MuiFormControl-root-64.credit-textfield {
+  margin-bottom: 20px;
+}
+
+.MuiFormControlLabel-root-91.lecture-checkbox {
+  margin-left: 10px;
 }
