@@ -3,16 +3,24 @@ import React from 'react';
 class TimeBlock extends React.Component {
   render() {
     const { displayLecture } = this.props;
+
     if (displayLecture) {
+      const {
+        name,
+        professor,
+        location,
+        isRequired
+      } = displayLecture;
+
       return (
-        <td className="unit lecture">
+        <td className={isRequired ? 'unit lecture-required' : 'unit lecture-unrequired'}>
           <span className="lecture-name">
-            {displayLecture.name}
+            {name}
           </span>
           <span className="lecture-info">
-            {displayLecture.professor}
-            {' · '}
-            {displayLecture.location}
+            {professor}
+            {professor && location ? ' · ' : ''}
+            {location}
           </span>
         </td>
       );

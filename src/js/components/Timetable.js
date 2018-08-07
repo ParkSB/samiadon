@@ -5,12 +5,14 @@ import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
 import TimeBlock from './TimeBlock';
+import Normal from '../options/Normal';
+import Kitakubu from '../options/Kitakubu';
 
 class Timetable extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      mode: 'normal',
+      option: 'normal',
       weekday: ['월', '화', '수', '목', '금', '토', '일'],
       timeUnitAlphabet: ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'],
       timeUnitString: [
@@ -27,9 +29,9 @@ class Timetable extends React.Component {
     };
   }
 
-  setMode = (e) => {
+  setOption = (e) => {
     this.setState({
-      mode: e.target.value
+      option: e.target.value
     });
   }
 
@@ -45,46 +47,47 @@ class Timetable extends React.Component {
     return -1;
   }
 
-  setCommonTable = () => {
-    const { lectureForms, lectures } = this.props;
+  setTable = () => {
+    const { credit, lectureForms, lectures } = this.props;
+    const { option } = this.state;
 
     this.setState({ displayLectures: {} });
 
-    for (let i = 0; i < lectureForms.length; i += 1) {
-      const lecture = lectures[lectureForms[i]];
+    lectureForms.forEach((lectureForm) => {
+      const lecture = lectures[lectureForm];
 
       if (lecture.time) {
         const times = lecture.time.split(',');
 
-        for (let j = 0; j < times.length; j += 1) {
-          times[j] = times[j].replace(/\s/g, '');
+        times.forEach((time) => {
+          const weekday = time.replace(/\s/g, '').split('')[0];
+          const hours = time.replace(/\s/g, '').split('')[1].toUpperCase();
+          let displayLecture = null;
 
-          const weekday = times[j].split('')[0];
-          const hours = times[j].split('')[1].toUpperCase();
+          // TODO: option 값에 따라 인스턴스 생성하도록 개선.
+          if (option === 'normal') {
+            displayLecture = new Normal(lecture, weekday, hours).execute();
+          } else if (option === 'kitakubu') {
+            displayLecture = new Kitakubu(lecture, weekday, hours, credit).execute();
+          }
 
           if (weekday && hours) {
             const key = `${weekday}${hours}`;
             this.setState(prevState => ({
               displayLectures: {
                 ...prevState.displayLectures,
-                [key]: {
-                  name: lecture.name,
-                  professor: lecture.professor,
-                  location: lecture.location,
-                  weekday,
-                  hours
-                }
+                [key]: displayLecture
               }
             }));
           }
-        }
+        });
       }
-    }
+    });
   }
 
   render() {
     const {
-      mode,
+      option,
       weekday,
       timeUnitAlphabet,
       timeUnitString,
@@ -94,13 +97,13 @@ class Timetable extends React.Component {
     return (
       <div id="timetable">
         <div id="timetable-radios">
-          <FormControl component="fieldset" required className="mode-radio-form">
+          <FormControl component="fieldset" required className="option-radio-form">
             <RadioGroup
-              aria-label="모드 설정"
-              name="mode-radio"
-              value={mode}
-              onChange={this.setMode}
-              className="mode-radio-form"
+              aria-label="옵션 설정"
+              name="option-radio"
+              value={option}
+              onChange={this.setOption}
+              className="option-radio-form"
             >
               <FormControlLabel value="normal" control={<Radio />} label="일반" />
               <FormControlLabel value="kitakubu" control={<Radio />} label="칼퇴" />
@@ -113,7 +116,7 @@ class Timetable extends React.Component {
           </FormControl>
         </div>
 
-        <Button variant="contained" color="primary" onClick={this.setCommonTable}>
+        <Button variant="contained" color="primary" onClick={this.setTable}>
           {'카피카피 룸룸!'}
         </Button>
 
