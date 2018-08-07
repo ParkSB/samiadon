@@ -1,22 +1,41 @@
 class Normal {
-  constructor(lecture, weekday, hours) {
-    this.key = `${weekday}${hours}`;
-    this.lecture = lecture;
-    this.weekday = weekday;
-    this.hours = hours;
+  constructor(lectureForms, lectures) {
+    this.lectureForms = lectureForms;
+    this.lectures = lectures;
+    this.displayLectures = {};
   }
 
   execute() {
-    const displayLecture = {
-      name: this.lecture.name,
-      professor: this.lecture.professor,
-      location: this.lecture.location,
-      isRequired: this.lecture.isRequired,
-      weekday: this.weekday,
-      hours: this.hours
-    };
+    this.lectureForms.forEach((lectureForm) => {
+      const lecture = this.lectures[lectureForm];
 
-    return displayLecture;
+      if (lecture.time) {
+        const times = lecture.time.split(',');
+
+        times.forEach((time) => {
+          const weekday = time.replace(/\s/g, '').split('')[0];
+          const hours = time.replace(/\s/g, '').split('')[1].toUpperCase();
+
+          if (weekday && hours) {
+            const key = `${weekday}${hours}`;
+
+            this.displayLectures = {
+              ...this.displayLectures,
+              [key]: {
+                name: lecture.name,
+                professor: lecture.professor,
+                location: lecture.location,
+                isRequired: lecture.isRequired,
+                weekday,
+                hours
+              }
+            };
+          }
+        });
+      }
+    });
+
+    return this.displayLectures;
   }
 }
 

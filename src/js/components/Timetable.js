@@ -11,6 +11,7 @@ import Kitakubu from '../options/Kitakubu';
 class Timetable extends React.Component {
   constructor(props) {
     super(props);
+
     this.state = {
       option: 'normal',
       weekday: ['월', '화', '수', '목', '금', '토', '일'],
@@ -51,37 +52,19 @@ class Timetable extends React.Component {
     const { credit, lectureForms, lectures } = this.props;
     const { option } = this.state;
 
+    let computedLectures = null;
+
     this.setState({ displayLectures: {} });
 
-    lectureForms.forEach((lectureForm) => {
-      const lecture = lectures[lectureForm];
+    // TODO: option 값에 따라 인스턴스 생성하도록 개선.
+    if (option === 'normal') {
+      computedLectures = new Normal(lectureForms, lectures).execute();
+    } else if (option === 'kitakubu') {
+      computedLectures = new Kitakubu(lectureForms, lectures, credit).execute();
+    }
 
-      if (lecture.time) {
-        const times = lecture.time.split(',');
-
-        times.forEach((time) => {
-          const weekday = time.replace(/\s/g, '').split('')[0];
-          const hours = time.replace(/\s/g, '').split('')[1].toUpperCase();
-          let displayLecture = null;
-
-          // TODO: option 값에 따라 인스턴스 생성하도록 개선.
-          if (option === 'normal') {
-            displayLecture = new Normal(lecture, weekday, hours).execute();
-          } else if (option === 'kitakubu') {
-            displayLecture = new Kitakubu(lecture, weekday, hours, credit).execute();
-          }
-
-          if (weekday && hours) {
-            const key = `${weekday}${hours}`;
-            this.setState(prevState => ({
-              displayLectures: {
-                ...prevState.displayLectures,
-                [key]: displayLecture
-              }
-            }));
-          }
-        });
-      }
+    this.setState({
+      displayLectures: computedLectures
     });
   }
 
@@ -144,6 +127,7 @@ class Timetable extends React.Component {
                   </td>
                   {Array.from(Array(7).keys()).map((w) => {
                     const displayLectureKey = `${weekday[w]}${timeUnitAlphabet[t]}`;
+
                     return (
                       <TimeBlock
                         key={w}
