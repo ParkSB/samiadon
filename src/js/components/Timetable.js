@@ -100,7 +100,7 @@ class Timetable extends React.Component {
         </div>
 
         <Button variant="contained" color="primary" onClick={this.setTable}>
-          {'카피카피 룸룸!'}
+          {'🔮 카피카피 룸룸!'}
         </Button>
 
         <table>
